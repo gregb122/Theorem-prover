@@ -37,7 +37,7 @@
 %
 % Do poprawnego działania sprawdzaczki należy jeszcze zmodyfikować
 % poniższe dwa wiersze:
-:- use_module(grzegorz_bielecki_tests).
+:- use_module(performance_tests).
 :- use_module(grzegorz_bielecki).
 
 :- op(200, fx, ~).
