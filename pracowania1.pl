@@ -12,26 +12,55 @@
 % UWAGA: to nie jest jeszcze rozwiązanie; należy zmienić jego
 % definicję.
 solve(Clauses, Solution) :-
-  Clauses  = [p v ~p],
-  Solution = [(p,x)].
-formula_do_listy_literalow([],Acc,Acc).
-formula_do_listy_literalow([H|T],Acc,Lista_literalow):-
+
+
+
+
+formula_do_listy_atomow_sort(Formula,Listasort):-
+  formula_do_listy_atomow(Formula,[],Lista),
+  sort(Lista,Listasort).
+
+formula_do_listy_atomow([],Acc,Acc).
+formula_do_listy_atomow([~H|T],Acc,Lista_literalow):-
   atomic(H),
   Acc1=[H|Acc],
-  formula_do_listy_literalow(T,Acc1,Lista_literalow),!.
-formula_do_listy_literalow([H|T],Acc,Lista_literalow):-
-  klauzula_do_listy_literalow(H,[],Lista),
+  formula_do_listy_atomow(T,Acc1,Lista_literalow),!.
+formula_do_listy_atomow([H|T],Acc,Lista_literalow):-
+  atomic(H),
+  Acc1=[H|Acc],
+  formula_do_listy_atomow(T,Acc1,Lista_literalow),!.
+formula_do_listy_atomow([H|T],Acc,Lista_literalow):-
+  klauzula_do_listy_atomow(H,[],Lista),
   append(Lista,Acc,Acc1),
-  formula_do_listy_literalow(T,Acc1,Lista_literalow).
+  formula_do_listy_atomow(T,Acc1,Lista_literalow).
 
+
+klauzula_do_listy_atomow(~Klauzula,Acc,Lista_literalow):-
+  atomic(Klauzula),
+  Acc1=[Klauzula|Acc],
+  Acc1=Lista_literalow,!.
+klauzula_do_listy_atomow(Klauzula,Acc,Lista_literalow):-
+  atomic(Klauzula),
+  Acc1=[Klauzula|Acc],
+  Acc1=Lista_literalow,!.
+klauzula_do_listy_atomow(~X v R,Acc,Lista_literalow):-
+  Acc1=[X|Acc],
+  klauzula_do_listy_atomow(R,Acc1,Lista_literalow),!.
+klauzula_do_listy_atomow(X v R,Acc,Lista_literalow):-
+  Acc1=[X|Acc],
+  klauzula_do_listy_atomow(R,Acc1,Lista_literalow),!.
+
+klauzula_do_listy_literalow(~Klauzula,Acc,Lista_literalow):-
+  atomic(Klauzula),
+  Acc1=[~Klauzula|Acc],
+  Acc1=Lista_literalow,!.
 klauzula_do_listy_literalow(Klauzula,Acc,Lista_literalow):-
   atomic(Klauzula),
-  \+ member(Klauzula, Acc),
   Acc1=[Klauzula|Acc],
-  Acc1=Lista_literalow.
+  Acc1=Lista_literalow,!.
+klauzula_do_listy_literalow(~X v R,Acc,Lista_literalow):-
+  Acc1=[~X|Acc],
+  klauzula_do_listy_literalow(R,Acc1,Lista_literalow),!.
 klauzula_do_listy_literalow(X v R,Acc,Lista_literalow):-
-  \+ member(X, Acc),
   Acc1=[X|Acc],
   klauzula_do_listy_literalow(R,Acc1,Lista_literalow),!.
-klauzula_do_listy_literalow(_ v R,Acc,Lista_literalow):-
-  klauzula_do_listy_literalow(R,Acc,Lista_literalow).
