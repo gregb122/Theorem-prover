@@ -24,7 +24,7 @@ solve([H|T],Lista_list_literalow,Acc,Lista_war1,Reszta):-
   member(X,[t,f]),
   usun_z_listy(X,H,Lista_list_literalow,[],Lista_pozostalych),
   Acc1=[(H,X)|Acc],
-  solve(T,Lista_pozostalych,Acc1,Lista_war1,Reszta),
+  solve(T,Lista_pozostalych,Acc1,Lista_war1,Reszta).
 
 wartosciowanie_reszty([],Acc,Acc).
 wartosciowanie_reszty([H|T],Acc,Lista_war2):-
@@ -32,14 +32,14 @@ wartosciowanie_reszty([H|T],Acc,Lista_war2):-
   wartosciowanie_reszty(T,Acc1,Lista_war2).
 
 %tworzy liste z klauzul w ktorych nie wystepuje podana zmienna H.
-usun_z_listy(_,[],Acc,Acc).
+usun_z_listy(_,_,[],Acc,Acc).
 usun_z_listy(t,H,[X|T],Acc,Lista_pozostalych):-
   \+ member(H,X),
-  Acc1=[[X,t]|Acc],
+  Acc1=[X|Acc],
   usun_z_listy(t,H,T,Acc1,Lista_pozostalych),!.
 usun_z_listy(f,H,[X|T],Acc,Lista_pozostalych):-
   \+ member(~H,X),
-  Acc1=[(X,f)|Acc],
+  Acc1=[X|Acc],
   usun_z_listy(f,H,T,Acc1,Lista_pozostalych),!.
 usun_z_listy(X,H,[_|T],Acc,Lista_pozostalych):-
   usun_z_listy(X,H,T,Acc,Lista_pozostalych).
