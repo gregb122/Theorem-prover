@@ -2,7 +2,7 @@
 % Należy zmienić nazwę modułu na {imie}_{nazwisko} gdzie za
 % {imie} i {nazwisko} należy podstawić odpowiednio swoje imię
 % i nazwisko bez znaków diakrytycznych
-%:- module(grzegorz_bielecki, [solve/2]).
+:- module(grzegorz_bielecki, [solve/2]).
 
 % definiujemy operatory ~/1 oraz v/2
 :- op(200, fx, ~).% p v q v r => v(p, v(q, r))  X v R    v(X, R) [H|T]
@@ -19,6 +19,7 @@ solve(Clauses, Solution) :-
   append(Lista_war1,Lista_war2,Solution).
 
 solve(Lista,[],Acc1,Acc1,Lista):-!.
+solve([],[],_,_,false)
 solve([],_,_,_,_):-fail.
 solve([H|T],Lista_list_literalow,Acc,Lista_war1,Reszta):-
   member(X,[t,f]),
@@ -33,6 +34,8 @@ wartosciowanie_reszty([H|T],Acc,Lista_war2):-
 
 %tworzy liste z klauzul w ktorych nie wystepuje podana zmienna H.
 usun_z_listy(_,_,[],Acc,Acc).
+usun_z_listy(t,H,[X|T],Acc,Lista_pozostalych):-
+  X=[],fail.
 usun_z_listy(t,H,[X|T],Acc,Lista_pozostalych):-
   \+ member(H,X),
   Acc1=[X|Acc],
