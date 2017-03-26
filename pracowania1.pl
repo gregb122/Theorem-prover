@@ -11,15 +11,37 @@
 % Główny predykat rozwiązujący zadanie.
 % UWAGA: to nie jest jeszcze rozwiązanie; należy zmienić jego
 % definicję.
-%solve(Clauses, Solution) :-
+solve(Clauses, Solution) :-
+  formula_do_listy_atomow_sort(Clauses,Lista_atomow),
+  formula_do_listy_list_literalow(Clauses,Lista_list_literalow),
+  solve(Lista_atomow,Lista_list_literalow,[],Lista_war1,Reszta),
+  wartosciowanie_reszty(Reszta,Lista_war2),
+  append(Lista_war1,Lista_war2,Solution).
+solve([H|T],Lista_list_literalow,Acc,Lista_war1,Reszta):-
+  dodaj_do_listy(H,Lista_list_literalow,[],Lista_pozostalych),
+  Acc1=[H,Acc],
+  solve(T,Lista_pozostalych,Acc1,Lista_war1,Reszta),
+solve(Lista,[],Acc1,Acc1,Lista).
+solve([],[],Acc1,Acc1,[]).
+solve([],_,Acc1,_,_,_):-fail.
+
+
+%tworzy liste z klauzul w ktorych nie wystepuje podana zmienna H.
+dodaj_do_listy(H,[],Acc,Acc).
+dodaj_do_listy(H,[X|T],Acc,Lista_pozostalych):-
+  \+ member(H,X),
+  Acc1=[X|Acc],
+  dodaj_do_listy(H,T,Acc1,Lista_pozostalych),!.
+dodaj_do_listy(H,[_|T],Acc,Lista_pozostalych):-
+  dodaj_do_listy(H,T,Acc,Lista_pozostalych).
 
 
 
+%Listy atomow i literalow:
 
 formula_do_listy_atomow_sort(Formula,Listasort):-
   formula_do_listy_atomow(Formula,[],Lista),
   sort(Lista,Listasort).
-
 formula_do_listy_atomow([],Acc,Acc).
 formula_do_listy_atomow([~H|T],Acc,Lista_literalow):-
   atomic(H),
@@ -33,7 +55,6 @@ formula_do_listy_atomow([H|T],Acc,Lista_literalow):-
   klauzula_do_listy_atomow(H,[],Lista),
   append(Lista,Acc,Acc1),
   formula_do_listy_atomow(T,Acc1,Lista_literalow).
-
 
 klauzula_do_listy_atomow(~Klauzula,Acc,Lista_literalow):-
   atomic(Klauzula),
