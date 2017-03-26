@@ -11,7 +11,7 @@
 % Główny predykat rozwiązujący zadanie.
 % UWAGA: to nie jest jeszcze rozwiązanie; należy zmienić jego
 % definicję.
-solve(Clauses, Solution) :-
+%solve(Clauses, Solution) :-
 
 
 
@@ -64,3 +64,11 @@ klauzula_do_listy_literalow(~X v R,Acc,Lista_literalow):-
 klauzula_do_listy_literalow(X v R,Acc,Lista_literalow):-
   Acc1=[X|Acc],
   klauzula_do_listy_literalow(R,Acc1,Lista_literalow),!.
+
+formula_do_listy_list_literalow(Formula,Listalist):-
+  formula_do_listy_list_literalow_acc(Formula,[],Listalist).
+formula_do_listy_list_literalow_acc([],Acc,Acc).
+formula_do_listy_list_literalow_acc([H|T],Acc,Listalist):-
+  klauzula_do_listy_literalow(H,[],Lista_literalow),
+  Acc1=[Lista_literalow|Acc],
+  formula_do_listy_list_literalow_acc(T,Acc1,Listalist).
