@@ -14,37 +14,33 @@
 solve(Clauses, Solution) :-
   formula_do_listy_atomow_sort(Clauses,Lista_atomow),
   formula_do_listy_list_literalow(Clauses,Lista_list_literalow),
-  \+ member([],Clauses),
+  \+ member([],Clauses),!,
   solve(Lista_atomow,Lista_list_literalow,[],Lista_war1,Reszta),
   wartosciowanie_reszty(Reszta,[],Lista_war2),
   append(Lista_war1,Lista_war2,Solution).
 
-wartosciowanie_reszty([],Acc,Acc):-!.
+wartosciowanie_reszty([],Acc,Acc).
 wartosciowanie_reszty([H|T],Acc,Lista_war2):-
   Acc1=[(H,x)|Acc],
   wartosciowanie_reszty(T,Acc1,Lista_war2).
 
 
 solve(Lista,[],Acc1,Acc1,Lista):-!.
-solve([],_,_,_,_):-fail.
 solve([H|T],Lista_list_literalow,Acc,Lista_war1,Reszta):-
   member(X,[t,f]),
   usun_z_listy(X,H,Lista_list_literalow,[],Lista_pozostalych),
-  Acc1=[(H,X)|Acc],
-  solve(T,Lista_pozostalych,Acc1,Lista_war1,Reszta).
+  solve(T,Lista_pozostalych,[(H,X)|Acc],Lista_war1,Reszta).
 
 
 
 %tworzy liste z klauzul w ktorych nie wystepuje podana zmienna H.
 usun_z_listy(_,_,[],Acc,Acc).
 usun_z_listy(t,H,[X|T],Acc,Lista_pozostalych):-
-  \+ member(H,X),
-  Acc1=[X|Acc],
-  usun_z_listy(t,H,T,Acc1,Lista_pozostalych),!.
+  \+ member(H,X),!,
+  usun_z_listy(t,H,T,[X|Acc],Lista_pozostalych).
 usun_z_listy(f,H,[X|T],Acc,Lista_pozostalych):-
-  \+ member(~H,X),
-  Acc1=[X|Acc],
-  usun_z_listy(f,H,T,Acc1,Lista_pozostalych),!.
+  \+ member(~H,X),!,
+  usun_z_listy(f,H,T,[X|Acc],Lista_pozostalych).
 usun_z_listy(X,H,[_|T],Acc,Lista_pozostalych):-
   usun_z_listy(X,H,T,Acc,Lista_pozostalych).
 
@@ -102,5 +98,6 @@ formula_do_listy_list_literalow(Formula,Listalist):-
 formula_do_listy_list_literalow_acc([],Acc,Acc).
 formula_do_listy_list_literalow_acc([H|T],Acc,Listalist):-
   klauzula_do_listy_literalow(H,[],Lista_literalow),
-  Acc1=[Lista_literalow|Acc],
+  sort(Lista_literalow,Lista_literalow_sort),
+  Acc1=[Lista_literalow_sort|Acc],
   formula_do_listy_list_literalow_acc(T,Acc1,Listalist).
