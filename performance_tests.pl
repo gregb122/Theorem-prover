@@ -1,7 +1,7 @@
 
-:- module(grzegorz_bielecki_tests, [tests/5]).
+:- module(theorem_prover_tests, [tests/5]).
 
-% definiujemy operatory ~/1 oraz v/2
+% Define the operators ~/1 and v/2.
 :- op(200, fx, ~).
 :- op(500, xfy, v).
 

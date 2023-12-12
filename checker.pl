@@ -1,12 +1,10 @@
-% Sprawdzaczka do zadania 1
+% !!! This file was implemented by the course staff and not belongs to my solution !!!
 %
-% Sprawdzaczkę należy uruchomić w katalogu w którym znajdują się testy
-% i rozwiązania:
+% The checker should be run in the directory where the tests and solutions are located:
 %
-% $ swipl prac1.pl
+% $ swipl checker.pl
 %
-% Predykat test_all/0 uruchamia rozwiązanie na wszystkich testach
-% is wyświetla raport. np.
+% The test_all/0 predicate runs the solution on all tests and displays a report. For example:
 %
 % ?- test_all.
 % excluded_middle                0.003s ok
@@ -15,30 +13,22 @@
 % big_test                       tle
 % tricky                         3.243s invalid answer
 %
-% Za pomocą predykatu run_test/1 można uruchomić pojedynczy test podając
-% jego nazwę:
+% The run_test/1 predicate can be used to run a single test by providing its name:
 %
 % ?- run_test(excluded_middle).
 % excluded_middle                0.003s ok
 %
-% Dla każdego uruchomionego testu sprawdzaczka wyświetla czas działania
-% (o ile test się w~pełni wykonał) oraz status wykonania. Możliwe wartości
-% to:
+% For each executed test, the checker displays the execution time (if the test completed) and the execution status. Possible values are:
 %
-% ok             - program przeszedł test
-% wrong answer   - błędna odpowiedź
-% tle            - przekroczony limit czasu
-% invalid test   - niepoprawny format testu
-% invalid answer - niepoprawna format rozwiązania
+% ok             - the program passed the test
+% wrong answer   - incorrect answer
+% tle            - time limit exceeded
+% invalid test   - invalid test format
+% invalid answer - invalid solution format
 %
-% UWAGA: niniejsza sprawdzaczka nie sprawdza wszystkich warunków nałożonych
-% na format testów i wyników działania programu. Zachęcamy jednak do
-% modyfikowania i ulepszania jej kodu.
-%
-% Do poprawnego działania sprawdzaczki należy jeszcze zmodyfikować
-% poniższe dwa wiersze:
-:- use_module(performance_tests).
-:- use_module(grzegorz_bielecki).
+% NOTE: This checker does not check all conditions imposed on the format of tests and program results. However, we encourage you to modify and improve its code.
+:- use_module(theorem_prover_tests).
+:- use_module(theorem_prover).
 
 :- op(200, fx, ~).
 :- op(500, xfy, v).
@@ -59,7 +49,8 @@ run_test(Name) :-
   ).
 
 % =============================================================================
-% Predykaty pomocnicze
+% Helper predicates
+% END: ed8c6549bwf9
 
 print_status(tle)       :- format("tle~n").
 print_status(ok(Time))  :- format("~3fs ok~n", [Time]).
