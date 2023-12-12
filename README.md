@@ -1,5 +1,7 @@
 # Prolog Theorem Prover
 
+[![Prolog Tests](https://github.com/gregb122/Theorem-prover/actions/workflows/ci.yml/badge.svg)](https://github.com/gregb122/Theorem-prover/actions/workflows/ci.yml)
+
 This project is a theorem prover implemented in Prolog.
 
 ## Getting Started
