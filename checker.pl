@@ -27,8 +27,8 @@
 % invalid answer - invalid solution format
 %
 % NOTE: This checker does not check all conditions imposed on the format of tests and program results. However, we encourage you to modify and improve its code.
-:- use_module(theorem_prover_tests).
-:- use_module(theorem_prover).
+:- use_module(tests/theorem_prover_tests).
+:- use_module(src/theorem_prover).
 
 :- op(200, fx, ~).
 :- op(500, xfy, v).
