@@ -21,8 +21,7 @@ jobs:
     - name: Run tests
       run: |
         output=$(swipl -g 'test_all,halt' checker.pl)
-        if [[ $output == *"tle"* || $output == *"wrong answer"* || /
-         $output == *"invalid answer"* || $output == *"invalid test"* ]]; then
+        if [[ $output == *"tle"* || $output == *"wrong answer"* || $output == *"invalid answer"* || $output == *"invalid test"* ]]; then
           echo "Test failed: $output"
           exit 1
         fi
