@@ -1,0 +1,28 @@
+name: Prolog Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up SWI-Prolog
+      run: |
+        sudo apt-get update
+        sudo apt-get install swi-prolog
+
+    - name: Run tests
+      run: |
+        output=$(swipl -g 'test_all,halt' checker.pl)
+        if [[ $output == *"tle"* || $output == *"wrong answer"* || /
+         $output == *"invalid answer"* || $output == *"invalid test"* ]]; then
+          echo "Test failed: $output"
+          exit 1
+        fi
