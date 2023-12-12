@@ -27,7 +27,7 @@ tests(dup_var_3,validity,[p v p],500,solution([(p,t)])).
 tests(dup_var_4,validity,[p v p v p],500,solution([(p,t)])).
 tests(weak_satisfiable_1,validity,[p v q, r, s],500,solution([(p,t),(q,f),(r,t),(s,t)])).
 tests(weak_satisfiable_2,validity,[p v q, ~r, r v ~p],600,count(1)).
-tests(contradictory_1,validity,[p , ~q],500,count(0)).
+tests(contradictory_1,validity,[p , ~p],500,count(0)).
 tests(contradictory_2,validity,[p, p, ~p],500,count(0)).
 tests(empty_clause,validity,[[]],500,count(0)).
 tests(var_empty,validity,[p, []],500,count(0)).
